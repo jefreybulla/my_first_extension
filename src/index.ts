@@ -37,6 +37,9 @@ class APODWidget extends Widget {
     // Add a summary element to the panel
     this.summary = document.createElement('p')
     this.node.appendChild(this.summary)
+
+    this.description = document.createElement('p')
+    this.node.appendChild(this.description)
   }
 
   /**
@@ -49,6 +52,8 @@ class APODWidget extends Widget {
   */
   readonly summary: HTMLParagraphElement
 
+  readonly description: HTMLParagraphElement
+
   /**
   * Handle update requests for the widget.
   */
@@ -60,8 +65,10 @@ class APODWidget extends Widget {
       const data = await response.json()
       if (data.error) {
         this.summary.innerText = data.error.message
+        this.description.innerText = data.error.message
       } else {
         this.summary.innerText = response.statusText
+        this.description.innerText = response.statusText
       }
       return
     }
@@ -73,6 +80,7 @@ class APODWidget extends Widget {
       this.img.src = data.url
       this.img.title = data.title
       this.summary.innerText = data.title
+      this.description.innerText = data.explanation
       if (data.copyright) {
         this.summary.innerText += ` (Copyright ${data.copyright})`
       }
